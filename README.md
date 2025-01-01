@@ -103,3 +103,4 @@ This project is licensed under the GNU General Public License v3.0 - see the [Li
 ## Related Projects
 
 - [3dsdb](https://github.com/ghost-land/3dsdb)
+- [3dserver](https://github.com/ghost-land/3dserver)
