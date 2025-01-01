@@ -1,0 +1,40 @@
+db/3ds/
+├── base/                           # Base content folder
+│   └── [tid]/                      # Unique identifier for the content
+│       ├── banner.jpg              # Banner image for the content
+│       ├── icon.jpg                # Icon image for the content
+│       ├── top_image.jpg           # Top image (main display image)
+│       ├── meta.xml               # Metadata file (e.g., title, description, etc.)
+│       ├── screenshots/            # Folder for compiled screenshots
+│       │   ├── screenshot_1.jpg    # Screenshot 1
+│       │   ├── screenshot_2.jpg    # Screenshot 2
+│       │   └── screenshot_3.jpg    # Screenshot 3
+│       ├── thumbnails/             # Folder for thumbnails of screenshots
+│       │   ├── thumbnail_1.jpg     # Thumbnail 1
+│       │   ├── thumbnail_2.jpg     # Thumbnail 2
+│       │   └── thumbnail_3.jpg     # Thumbnail 3
+│       └── screenshots_uncompiled/ # Folder for uncompiled screenshots
+│           ├── screenshot_1_lower.jpg # Lower screen of screenshot 1
+│           ├── screenshot_1_upper.jpg # Upper screen of screenshot 1
+│           ├── screenshot_2_lower.jpg # Lower screen of screenshot 2
+│           └── screenshot_2_upper.jpg # Upper screen of screenshot 2
+├── dlc/                            # Same structure as "base/"
+#     └── [tid]/ ...
+├── dsiware/                        # Same structure as "base/"
+#     └── [tid]/ ...
+├── extras/                         # Same structure as "base/" for its subcategories
+#     ├── Custom DSiWare/
+#     ├── DSi System Apps/
+#     ├── Dev Apps/
+#     ├── Miscellaneous/
+#     ├── Homebrew/
+#     ├── ROM Hacks/
+#     └── Translated Games/
+├── themes/                         # Same structure as "base/"
+#     └── [tid]/ ...
+├── updates/                        # Same structure as "base/"
+#     └── [tid]/ ...
+├── videos/                         # Same structure as "base/"
+#     └── [tid]/ ...
+└── virtual-console/                # Same structure as "base/"
+#     └── [tid]/ ...
