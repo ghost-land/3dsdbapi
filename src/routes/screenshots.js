@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const { findTidPath } = require('../utils/pathFinder');
+const { getBaseUrl } = require('../utils/urlUtils');
 
 const router = express.Router();
 
@@ -42,7 +43,7 @@ router.get('/:tid/screens', async (req, res) => {
     const screenshots = files
       .filter(file => file.startsWith('screenshot_'))
       .sort()
-      .map(file => `https://api.ghseshop.cc/${req.params.tid}/screen/${file.match(/\d+/)[0]}`);
+      .map(file => `${getBaseUrl(req)}/${req.params.tid}/screen/${file.match(/\d+/)[0]}`);
 
     res.json({
       count: screenshots.length,
@@ -73,9 +74,10 @@ router.get('/:tid/screen_u', async (req, res) => {
       if (match) {
         const [, num, screen] = match;
         const type = screen === 'upper' ? 'upper' : 'lower';
+        const baseUrl = getBaseUrl(req);
         screenshots[type].push({
           number: parseInt(num),
-          url: `https://api.ghseshop.cc/${req.params.tid}/screen_u/${num}/${type[0]}`
+          url: `${baseUrl}/${req.params.tid}/screen_u/${num}/${type[0]}`
         });
       }
     });

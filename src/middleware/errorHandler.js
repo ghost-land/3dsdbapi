@@ -1,7 +1,28 @@
 const { getErrorHtml } = require('../views/templates');
+const { APIError } = require('../utils/errors');
 
 function errorHandler(err, req, res, next) {
   const accepts = req.accepts(['html', 'json']);
+  
+  // Handle custom API errors
+  if (err instanceof APIError) {
+    if (accepts === 'json') {
+      return res.status(err.status).json({
+        error: {
+          code: err.code,
+          message: err.message,
+          details: err.details
+        }
+      });
+    }
+    
+    return res.status(err.status).send(
+      getErrorHtml(err.status, err.message, {
+        errorCode: err.code,
+        ...err.details
+      })
+    );
+  }
   
   // Handle 404 errors
   if (err.status === 404 || err.statusCode === 404) {

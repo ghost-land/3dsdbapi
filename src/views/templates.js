@@ -85,6 +85,16 @@ const getApiDocsHtml = () => `
     <span class="method">GET</span> <code>/uptime</code>
     <p>Get server uptime</p>
   </div>
+
+  <div class="endpoint">
+    <span class="method">GET</span> <code>/stats</code>
+    <p>Get statistics about titles in each category</p>
+  </div>
+
+  <div class="endpoint">
+    <span class="method">GET</span> <code>/category/:category</code>
+    <p>List all TIDs in a specific category</p>
+  </div>
 </body>
 </html>
 `;

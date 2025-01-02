@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const { findTidPath } = require('../utils/pathFinder');
+const { getBaseUrl } = require('../utils/urlUtils');
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/:tid/media', async (req, res) => {
       return res.status(404).json({ error: 'TID not found' });
     }
 
-    const baseUrl = `https://api.ghseshop.cc/${req.params.tid}`;
+    const baseUrl = `${getBaseUrl(req)}/${req.params.tid}`;
     const media = {
       metadata: `${baseUrl}`,
       banner: `${baseUrl}/banner`,

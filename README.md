@@ -39,6 +39,8 @@ public/db/3ds/
 | `GET /:tid/thumbs` | List all available thumbnails |
 | `GET /:tid/media` | List all available media |
 | `GET /uptime` | Get server uptime |
+| `GET /stats` | Get statistics about titles in each category |
+| `GET /category/:category` | List all TIDs in a specific category |
 
 ## Setup
 
