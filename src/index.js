@@ -8,6 +8,7 @@ const metadataRoutes = require('./routes/metadata');
 const imageRoutes = require('./routes/images');
 const screenshotRoutes = require('./routes/screenshots');
 const thumbnailRoutes = require('./routes/thumbnails');
+const mediaRoutes = require('./routes/media');
 const uptimeRoutes = require('./routes/uptime');
 
 const app = express();
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 // API routes
 app.use('/', uptimeRoutes);
 app.use('/', metadataRoutes);
+app.use('/', mediaRoutes);
 app.use('/', imageRoutes);
 app.use('/', screenshotRoutes);
 app.use('/', thumbnailRoutes);

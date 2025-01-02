@@ -72,6 +72,11 @@ const getApiDocsHtml = () => `
   </div>
 
   <div class="endpoint">
+    <span class="method">GET</span> <code>/:tid/media</code>
+    <p>Get a comprehensive list of all available media for a title</p>
+  </div>
+
+  <div class="endpoint">
     <span class="method">GET</span> <code>/uptime</code>
     <p>Get server uptime</p>
   </div>
