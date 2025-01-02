@@ -53,4 +53,48 @@ router.get('/:tid/screens', async (req, res) => {
   }
 });
 
+router.get('/:tid/screen_u', async (req, res) => {
+  try {
+    const tidPath = await findTidPath(req.params.tid);
+    if (!tidPath) {
+      return res.status(404).json({ error: 'TID not found' });
+    }
+
+    const uncompiledPath = path.join(tidPath, 'screenshots_uncompiled');
+    const files = await fs.readdir(uncompiledPath);
+    
+    const screenshots = {
+      upper: [],
+      lower: []
+    };
+
+    files.forEach(file => {
+      const match = file.match(/screenshot_(\d+)_(upper|lower)\.jpg/);
+      if (match) {
+        const [, num, screen] = match;
+        const type = screen === 'upper' ? 'upper' : 'lower';
+        screenshots[type].push({
+          number: parseInt(num),
+          url: `https://api.ghseshop.cc/${req.params.tid}/screen_u/${num}/${type[0]}`
+        });
+      }
+    });
+
+    // Sort arrays by screenshot number
+    screenshots.upper.sort((a, b) => a.number - b.number);
+    screenshots.lower.sort((a, b) => a.number - b.number);
+
+    res.json({
+      count: {
+        upper: screenshots.upper.length,
+        lower: screenshots.lower.length,
+        total: screenshots.upper.length + screenshots.lower.length
+      },
+      screenshots
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;

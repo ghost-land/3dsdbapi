@@ -51,6 +51,11 @@ const getApiDocsHtml = () => `
   </div>
 
   <div class="endpoint">
+    <span class="method">GET</span> <code>/:tid/screen_u</code>
+    <p>Get a list of all available uncompiled screenshots (upper and lower screens)</p>
+  </div>
+
+  <div class="endpoint">
     <span class="method">GET</span> <code>/:tid/screen_u/:num/:screen</code>
     <p>Get an uncompiled screenshot (upper/lower screen)</p>
     <p>Use <code>u</code> for upper screen, <code>l</code> for lower screen</p>

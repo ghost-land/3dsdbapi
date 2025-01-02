@@ -32,6 +32,7 @@ public/db/3ds/
 | `GET /:tid/banner` | Get title banner image |
 | `GET /:tid/icon` | Get title icon image |
 | `GET /:tid/screen/:num` | Get compiled screenshot |
+| `GET /:tid/screen_u` | List all uncompiled screenshots |
 | `GET /:tid/screen_u/:num/:screen` | Get uncompiled screenshot (u/l) |
 | `GET /:tid/screens` | List all available screenshots |
 | `GET /:tid/thumb/:num` | Get specific thumbnail |
