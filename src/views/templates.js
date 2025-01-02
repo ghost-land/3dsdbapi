@@ -70,6 +70,11 @@ const getApiDocsHtml = () => `
     <span class="method">GET</span> <code>/:tid/thumbs</code>
     <p>Get a list of all available thumbnails</p>
   </div>
+
+  <div class="endpoint">
+    <span class="method">GET</span> <code>/uptime</code>
+    <p>Get server uptime</p>
+  </div>
 </body>
 </html>
 `;

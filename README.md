@@ -36,6 +36,7 @@ public/db/3ds/
 | `GET /:tid/screens` | List all available screenshots |
 | `GET /:tid/thumb/:num` | Get specific thumbnail |
 | `GET /:tid/thumbs` | List all available thumbnails |
+| `GET /uptime` | Get server uptime |
 
 ## Setup
 
