@@ -3,39 +3,48 @@ const fs = require('fs').promises;
 const path = require('path');
 const { findTidPath } = require('../utils/pathFinder');
 const { getBaseUrl } = require('../utils/urlUtils');
+const { NotFoundError, ServerError } = require('../utils/errors');
 
 const router = express.Router();
 
-router.get('/:tid/screen/:num', async (req, res) => {
+router.get('/:tid/screen/:num', async (req, res, next) => {
   try {
     const tidPath = await findTidPath(req.params.tid);
     if (!tidPath) {
-      return res.status(404).json({ error: 'TID not found' });
+      throw new NotFoundError('TID not found', { tid: req.params.tid });
     }
     res.sendFile(path.join(tidPath, 'screenshots', `screenshot_${req.params.num}.jpg`));
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    if (error instanceof NotFoundError) {
+      next(error);
+    } else {
+      next(new ServerError('Failed to retrieve screenshot'));
+    }
   }
 });
 
-router.get('/:tid/screen_u/:num/:screen', async (req, res) => {
+router.get('/:tid/screen_u/:num/:screen', async (req, res, next) => {
   try {
     const tidPath = await findTidPath(req.params.tid);
     if (!tidPath) {
-      return res.status(404).json({ error: 'TID not found' });
+      throw new NotFoundError('TID not found', { tid: req.params.tid });
     }
     const screen = req.params.screen === 'u' ? 'upper' : 'lower';
     res.sendFile(path.join(tidPath, 'screenshots_uncompiled', `screenshot_${req.params.num}_${screen}.jpg`));
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    if (error instanceof NotFoundError) {
+      next(error);
+    } else {
+      next(new ServerError('Failed to retrieve uncompiled screenshot'));
+    }
   }
 });
 
-router.get('/:tid/screens', async (req, res) => {
+router.get('/:tid/screens', async (req, res, next) => {
   try {
     const tidPath = await findTidPath(req.params.tid);
     if (!tidPath) {
-      return res.status(404).json({ error: 'TID not found' });
+      throw new NotFoundError('TID not found', { tid: req.params.tid });
     }
 
     const screensPath = path.join(tidPath, 'screenshots');
@@ -50,7 +59,11 @@ router.get('/:tid/screens', async (req, res) => {
       screenshots
     });
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    if (error instanceof NotFoundError) {
+      next(error);
+    } else {
+      next(new ServerError('Failed to retrieve screenshots list'));
+    }
   }
 });
 

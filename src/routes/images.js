@@ -1,30 +1,39 @@
 const express = require('express');
 const path = require('path');
 const { findTidPath } = require('../utils/pathFinder');
+const { NotFoundError, ServerError } = require('../utils/errors');
 
 const router = express.Router();
 
-router.get('/:tid/banner', async (req, res) => {
+router.get('/:tid/banner', async (req, res, next) => {
   try {
     const tidPath = await findTidPath(req.params.tid);
     if (!tidPath) {
-      return res.status(404).json({ error: 'TID not found' });
+      throw new NotFoundError('TID not found', { tid: req.params.tid });
     }
     res.sendFile(path.join(tidPath, 'banner.jpg'));
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    if (error instanceof NotFoundError) {
+      next(error);
+    } else {
+      next(new ServerError('Failed to retrieve banner'));
+    }
   }
 });
 
-router.get('/:tid/icon', async (req, res) => {
+router.get('/:tid/icon', async (req, res, next) => {
   try {
     const tidPath = await findTidPath(req.params.tid);
     if (!tidPath) {
-      return res.status(404).json({ error: 'TID not found' });
+      throw new NotFoundError('TID not found', { tid: req.params.tid });
     }
     res.sendFile(path.join(tidPath, 'icon.jpg'));
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    if (error instanceof NotFoundError) {
+      next(error);
+    } else {
+      next(new ServerError('Failed to retrieve icon'));
+    }
   }
 });
 
