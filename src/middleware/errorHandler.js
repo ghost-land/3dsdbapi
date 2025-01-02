@@ -1,5 +1,22 @@
 const { getErrorHtml } = require('../views/templates');
 const { APIError } = require('../utils/errors');
+const { findClosestPath } = require('../utils/pathMatcher');
+
+const AVAILABLE_PATHS = [
+  '/:tid',
+  '/:tid/banner',
+  '/:tid/icon',
+  '/:tid/screen/:num',
+  '/:tid/screen_u',
+  '/:tid/screen_u/:num/:screen',
+  '/:tid/screens',
+  '/:tid/thumb/:num',
+  '/:tid/thumbs',
+  '/:tid/media',
+  '/uptime',
+  '/stats',
+  '/category/:category'
+];
 
 function errorHandler(err, req, res, next) {
   const accepts = req.accepts(['html', 'json']);
@@ -28,9 +45,12 @@ function errorHandler(err, req, res, next) {
   if (err.status === 404 || err.statusCode === 404) {
     const tid = req.params.tid;
     const resourceType = getResourceType(req.path);
+    const suggestedPath = findClosestPath(req.path, AVAILABLE_PATHS);
+
     const details = {
       tid,
       requestedPath: req.path,
+      suggestedPath: suggestedPath ? `Did you mean: ${suggestedPath}?` : null,
       possibleIssues: [
         'The TID might not exist in the database',
         'The requested resource might not be available for this title',
@@ -59,7 +79,8 @@ function errorHandler(err, req, res, next) {
         error: {
           code: 'RESOURCE_NOT_FOUND',
           status: 404,
-          message: `Resource not found: ${resourceType}`
+          message: `Resource not found: ${resourceType}`,
+          suggestion: suggestedPath ? `Did you mean: ${suggestedPath}?` : null
         },
         message: `Resource not found: ${resourceType}`,
         details
