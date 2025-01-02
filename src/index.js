@@ -36,6 +36,7 @@ app.use('/', metadataRoutes);
 app.use('/', mediaRoutes);
 app.use('/', imageRoutes);
 app.use('/', screenshotRoutes);
+app.use('/', thumbnailRoutes);
 
 // Documentation route
 app.use('/', docsRoutes);
