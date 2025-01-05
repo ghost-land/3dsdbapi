@@ -1,29 +1,32 @@
 // Custom error classes
+const { ERROR_CODES, STATUS_CODES, ERROR_MESSAGES } = require('./errorCodes');
+
 class APIError extends Error {
-    constructor(message, status, code, details = {}) {
-      super(message);
+    constructor(code, message = null, details = {}) {
+      super(message || ERROR_MESSAGES[code]);
       this.name = this.constructor.name;
-      this.status = status;
       this.code = code;
+      this.status = STATUS_CODES[code];
       this.details = details;
     }
   }
   
   class NotFoundError extends APIError {
     constructor(resource, details = {}) {
-      super(`${resource} not found`, 404, 'RESOURCE_NOT_FOUND', details);
+      const code = ERROR_CODES[`${resource.toUpperCase()}_NOT_FOUND`] || ERROR_CODES.RESOURCE_NOT_FOUND;
+      super(code, null, details);
     }
   }
   
   class ValidationError extends APIError {
-    constructor(message, details = {}) {
-      super(message, 400, 'VALIDATION_ERROR', details);
+    constructor(code, message = null, details = {}) {
+      super(code, message, details);
     }
   }
   
   class ServerError extends APIError {
     constructor(message = 'Internal server error', details = {}) {
-      super(message, 500, 'INTERNAL_SERVER_ERROR', details);
+      super(ERROR_CODES.INTERNAL_SERVER_ERROR, message, details);
     }
   }
   
@@ -31,5 +34,6 @@ class APIError extends Error {
     APIError,
     NotFoundError,
     ValidationError,
-    ServerError
+    ServerError,
+    ERROR_CODES
   };

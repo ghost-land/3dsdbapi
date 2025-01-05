@@ -43,12 +43,12 @@ function errorHandler(err, req, res, next) {
   
   // Handle 404 errors
   if (err.status === 404 || err.statusCode === 404) {
-    const tid = req.params.tid;
     const resourceType = getResourceType(req.path);
     const suggestedPath = findClosestPath(req.path, AVAILABLE_PATHS);
+    const pathParts = req.path.split('/');
+    const tid = pathParts[1] && pathParts[1].match(/^[0-9A-Fa-f]{16}$/) ? pathParts[1] : undefined;
 
     const details = {
-      tid,
       requestedPath: req.path,
       suggestedPath: suggestedPath ? `Did you mean: ${suggestedPath}?` : null,
       possibleIssues: [
@@ -73,6 +73,11 @@ function errorHandler(err, req, res, next) {
         '/category/:category - List all TIDs in a specific category'
       ]
     };
+
+    // Only include TID if it's a valid format
+    if (tid) {
+      details.tid = tid;
+    }
 
     if (accepts === 'json') {
       return res.status(404).json({
