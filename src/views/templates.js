@@ -32,7 +32,12 @@ const getApiDocsHtml = () => `
   
   <div class="endpoint">
     <span class="method">GET</span> <code>/:tid</code>
-    <p>Retrieve title metadata in XML format</p>
+    <p>Retrieve title metadata in JSON format</p>
+  </div>
+
+  <div class="endpoint">
+    <span class="method">GET</span> <code>/:tid/meta/:meta</code>
+    <p>Retrieve a specific metadata field (e.g., name, description, release_date_on_eshop)</p>
   </div>
 
   <div class="endpoint">
