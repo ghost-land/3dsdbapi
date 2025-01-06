@@ -4,12 +4,29 @@ const getApiDocsHtml = () => `
 <head>
   <title>3DSDB API Documentation</title>
   <style>
-    body { font-family: system-ui; max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    body { 
+      font-family: system-ui; 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 1rem;
+      overflow-x: hidden;
+    }
+    @media (min-width: 768px) {
+      body {
+        padding: 2rem;
+      }
+    }
     .endpoint-group { margin-bottom: 2rem; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; }
     .endpoint-group h3 { color: #1f2937; margin-top: 0; padding-bottom: 0.5rem; border-bottom: 2px solid #e5e7eb; }
     .endpoint { background: #f8fafc; padding: 1rem; margin: 1rem 0; border-radius: 4px; }
     .method { color: #2563eb; font-weight: bold; }
-    code { background: #e5e7eb; padding: 0.2rem 0.4rem; border-radius: 2px; }
+    code { 
+      background: #e5e7eb; 
+      padding: 0.2rem 0.4rem; 
+      border-radius: 2px;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
     details { margin-bottom: 1rem; }
     summary { cursor: pointer; padding: 0.5rem; background: #f8fafc; border-radius: 4px; user-select: none; }
     summary:hover { background: #f1f5f9; }
@@ -17,11 +34,49 @@ const getApiDocsHtml = () => `
     .parameters { margin-top: 0.5rem; }
     .parameter { margin-left: 1rem; }
     .response { margin-top: 0.5rem; }
-    .nav-menu { position: fixed; top: 1rem; right: 1rem; background: white; padding: 1rem; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .nav-menu ul { list-style: none; padding: 0; margin: 0; }
-    .nav-menu li { margin: 0.5rem 0; }
-    .nav-menu a { color: #2563eb; text-decoration: none; }
-    .nav-menu a:hover { text-decoration: underline; }
+    .nav-menu { 
+      position: static;
+      background: white;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    @media (min-width: 1024px) {
+      .nav-menu {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        margin-bottom: 0;
+      }
+    }
+    .nav-menu ul { 
+      list-style: none; 
+      padding: 0; 
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    @media (min-width: 1024px) {
+      .nav-menu ul {
+        flex-direction: column;
+      }
+    }
+    .nav-menu li { 
+      margin: 0;
+    }
+    .nav-menu a { 
+      color: #2563eb; 
+      text-decoration: none;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      background: #f8fafc;
+      display: block;
+    }
+    .nav-menu a:hover { 
+      background: #e5e7eb;
+    }
   </style>
 </head>
 <body>
@@ -339,11 +394,80 @@ const getErrorHtml = (status, message, details) => `
 <head>
   <title>${status} - ${message}</title>
   <style>
-    body { font-family: system-ui; max-width: 800px; margin: 0 auto; padding: 2rem; text-align: center; }
-    .error-code { font-size: 8rem; color: #ef4444; margin: 0; }
-    .error-message { font-size: 2rem; color: #1f2937; margin-bottom: 2rem; }
-    .details { background: #f5f5f5; padding: 1rem; border-radius: 4px; text-align: left; }
-    .suggestion { margin-top: 2rem; color: #4b5563; }
+    body { 
+      font-family: system-ui; 
+      max-width: 800px; 
+      margin: 0 auto; 
+      padding: 1rem; 
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      body {
+        padding: 2rem;
+      }
+    }
+    .error-code { 
+      font-size: 4rem; 
+      color: #ef4444; 
+      margin: 0;
+      line-height: 1;
+    }
+    @media (min-width: 768px) {
+      .error-code {
+        font-size: 8rem;
+      }
+    }
+    .error-message { 
+      font-size: 1.5rem; 
+      color: #1f2937; 
+      margin: 1rem 0 2rem;
+      line-height: 1.2;
+    }
+    @media (min-width: 768px) {
+      .error-message {
+        font-size: 2rem;
+      }
+    }
+    .details { 
+      background: #f5f5f5; 
+      padding: 1rem; 
+      border-radius: 8px; 
+      text-align: left;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin: 1rem 0;
+    }
+    .details h3 {
+      margin-top: 0;
+      color: #1f2937;
+      font-size: 1.25rem;
+    }
+    .details ul {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+    .details li {
+      margin: 0.5rem 0;
+      line-height: 1.4;
+    }
+    .details li ul {
+      margin-top: 0.5rem;
+    }
+    .suggestion { 
+      margin-top: 2rem; 
+      color: #4b5563;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .suggestion a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .suggestion a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -352,7 +476,7 @@ const getErrorHtml = (status, message, details) => `
   
   ${details ? `
   <div class="details">
-    <h3>Details:</h3>
+    <h3>What happened?</h3>
     <ul>
       ${Object.entries(details).map(([key, value]) => 
         `<li><strong>${key}:</strong> ${Array.isArray(value) ? 
@@ -365,7 +489,7 @@ const getErrorHtml = (status, message, details) => `
   ` : ''}
   
   <p class="suggestion">
-    Need help? Check out our <a href="/">API documentation</a>
+    💡 Need help? Check out our <a href="/">API documentation</a> for the correct endpoints and usage.
   </p>
 </body>
 </html>
