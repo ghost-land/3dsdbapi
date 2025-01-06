@@ -1,6 +1,8 @@
 # 3DSDB API
 
-A RESTful API for accessing 3DS game metadata, screenshots, and media assets.
+A RESTful API for accessing 3DS game metadata, screenshots, and media assets.   
+![Version](https://img.shields.io/badge/version-1.0.2-brightgreen.svg)
+![License](https://img.shields.io/badge/license-GPL--3.0-blue.svg)
 
 ## Features
 

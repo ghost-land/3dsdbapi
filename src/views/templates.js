@@ -6,15 +6,27 @@ const getApiDocsHtml = () => `
   <style>
     body { 
       font-family: system-ui; 
-      max-width: 1200px; 
+      max-width: min(1200px, 90vw); 
       margin: 0 auto; 
       padding: 1rem;
       overflow-x: hidden;
+      font-size: clamp(14px, 2vw, 16px);
     }
     @media (min-width: 768px) {
       body {
         padding: 2rem;
       }
+    }
+    h1 { font-size: clamp(24px, 4vw, 32px); }
+    h2 { font-size: clamp(20px, 3.5vw, 28px); }
+    h3 { font-size: clamp(18px, 3vw, 24px); }
+    h4 { font-size: clamp(16px, 2.5vw, 20px); }
+    code { font-size: clamp(12px, 1.8vw, 14px); }
+    .version {
+      color: #6b7280;
+      font-size: clamp(12px, 1.8vw, 14px);
+      margin-top: -1rem;
+      margin-bottom: 2rem;
     }
     .endpoint-group { margin-bottom: 2rem; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; }
     .endpoint-group h3 { color: #1f2937; margin-top: 0; padding-bottom: 0.5rem; border-bottom: 2px solid #e5e7eb; }
@@ -41,12 +53,50 @@ const getApiDocsHtml = () => `
       border-radius: 4px;
       margin-bottom: 2rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .nav-menu h4 {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: clamp(16px, 2.5vw, 18px);
+    }
+    .hamburger {
+      display: none;
+      width: 24px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #4b5563;
+    }
+    @media (max-width: 1023px) {
+      .hamburger {
+        display: block;
+      }
+      .nav-menu h4 {
+        cursor: pointer;
+      }
+      .nav-menu ul {
+        display: none;
+        margin-top: 1rem;
+        padding: 0.5rem 0;
+        border-top: 1px solid #e5e7eb;
+      }
+      .nav-menu.open ul {
+        display: flex;
+        animation: slideDown 0.2s ease-out;
+      }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @media (min-width: 1024px) {
       .nav-menu {
         position: fixed;
         top: 1rem;
         right: 1rem;
+        width: 200px;
         margin-bottom: 0;
       }
     }
@@ -55,33 +105,40 @@ const getApiDocsHtml = () => `
       padding: 0; 
       margin: 0;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 0.5rem;
     }
-    @media (min-width: 1024px) {
-      .nav-menu ul {
-        flex-direction: column;
-      }
+    @media (max-width: 1023px) {
+      .nav-menu ul { display: none; }
+      .nav-menu.open ul { display: flex; }
     }
     .nav-menu li { 
       margin: 0;
+      width: 100%;
     }
     .nav-menu a { 
       color: #2563eb; 
       text-decoration: none;
-      padding: 0.25rem 0.5rem;
+      padding: 0.75rem 1rem;
       border-radius: 4px;
       background: #f8fafc;
       display: block;
+      font-size: clamp(14px, 2vw, 16px);
+      text-align: center;
+      transition: all 0.2s ease;
     }
     .nav-menu a:hover { 
       background: #e5e7eb;
+      transform: translateX(4px);
     }
   </style>
 </head>
 <body>
   <nav class="nav-menu">
-    <h4>Quick Navigation</h4>
+    <h4 onclick="this.parentElement.classList.toggle('open')">
+      Quick Navigation
+      <span class="hamburger">☰</span>
+    </h4>
     <ul>
       <li><a href="#metadata">Metadata</a></li>
       <li><a href="#media">Media Assets</a></li>
@@ -92,6 +149,7 @@ const getApiDocsHtml = () => `
   </nav>
 
   <h1>3DSDB API Documentation</h1>
+  <p class="version">Version ${require('../../package.json').version}</p>
   
   <h2>Database Structure</h2>
   <p>The API serves content from a structured database located at <code>public/db/3ds/</code></p>
@@ -397,44 +455,47 @@ const getErrorHtml = (status, message, details) => `
     body { 
       font-family: system-ui; 
       max-width: 800px; 
-      margin: 0 auto; 
+      margin: 0 auto;
       padding: 1rem; 
       text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     @media (min-width: 768px) {
       body {
         padding: 2rem;
       }
     }
+    .error-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
     .error-code { 
-      font-size: 4rem; 
+      font-size: clamp(4rem, 15vw, 8rem);
       color: #ef4444; 
       margin: 0;
       line-height: 1;
-    }
-    @media (min-width: 768px) {
-      .error-code {
-        font-size: 8rem;
-      }
+      text-shadow: 2px 2px 4px rgba(239, 68, 68, 0.2);
     }
     .error-message { 
-      font-size: 1.5rem; 
+      font-size: clamp(1.25rem, 4vw, 2rem);
       color: #1f2937; 
       margin: 1rem 0 2rem;
       line-height: 1.2;
-    }
-    @media (min-width: 768px) {
-      .error-message {
-        font-size: 2rem;
-      }
     }
     .details { 
       background: #f5f5f5; 
       padding: 1rem; 
       border-radius: 8px; 
       text-align: left;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
       margin: 1rem 0;
+      font-size: clamp(14px, 2vw, 16px);
     }
     .details h3 {
       margin-top: 0;
@@ -455,10 +516,11 @@ const getErrorHtml = (status, message, details) => `
     .suggestion { 
       margin-top: 2rem; 
       color: #4b5563;
-      padding: 1rem;
+      padding: 1.5rem;
       background: #f8fafc;
       border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      font-size: clamp(14px, 2vw, 16px);
     }
     .suggestion a {
       color: #2563eb;
@@ -471,6 +533,7 @@ const getErrorHtml = (status, message, details) => `
   </style>
 </head>
 <body>
+  <div class="error-container">
   <h1 class="error-code">${status}</h1>
   <h2 class="error-message">${message}</h2>
   
@@ -491,6 +554,7 @@ const getErrorHtml = (status, message, details) => `
   <p class="suggestion">
     💡 Need help? Check out our <a href="/">API documentation</a> for the correct endpoints and usage.
   </p>
+  </div>
 </body>
 </html>
 `;
