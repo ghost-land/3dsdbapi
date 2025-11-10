@@ -1,3 +1,11 @@
+# ⚠️ Deprecated Project
+
+> **This repository is now archived.**  
+> The 3DSDB API is no longer maintained, all its functionality has been migrated and improved under the **`/citra`** section of **[Nlib API](https://github.com/ghost-land/nlib-api)**.  
+> Please use the new API for any future development.
+
+___
+
 # 3DSDB API
 
 A RESTful API for accessing 3DS game metadata, screenshots, and media assets.   
